@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto py-12">
+    <h1 class="text-4xl font-bold text-center mb-8">Your Bookings</h1>
+
+    <h2 class="text-2xl font-semibold mb-4">Confirmed Bookings</h2>
+    {% if confirmed_user_details %}
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white rounded-lg shadow-md">
+                <thead class="bg-blue-500 text-white">
+                    <tr>
+                        <th class="py-3 px-4 text-left">Full Name</th>
+                        <th class="py-3 px-4 text-left">Email</th>
+                        <th class="py-3 px-4 text-left">Username</th>
+                        <th class="py-3 px-4 text-left">Country</th>
+                        <th class="py-3 px-4 text-left">State</th>
+                        <th class="py-3 px-4 text-left">Service Date</th>
+                        <th class="py-3 px-4 text-left">Start Time</th>
+                        <th class="py-3 px-4 text-left">End Time</th>
+                        <th class="py-3 px-4 text-left">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700">
+                    {% for user in confirmed_user_details %}
+                        <tr class="hover:bg-blue-100 transition duration-300">
+                            <td class="py-3 px-4 border-b">{{ user.full_name }}</td>
+                            <td class="py-3 px-4 border-b">{{ user.email }}</td>
+                            <td class="py-3 px-4 border-b">{{ user.username }}</td>
+                            <td class="py-3 px-4 border-b">{{ user.country }}</td>
+                            <td class="py-3 px-4 border-b">{{ user.state }}</td>
+                            <td class="py-3 px-4 border-b">{{ user.date }}</td>
+                            <td class="py-3 px-4 border-b">{{ user.start_time }}</td>
+                            <td class="py-3 px-4 border-b">{{ user.end_time }}</td>
+                            <td class="py-3 px-4 border-b">{{ user.status }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-center text-gray-600">No confirmed bookings found.</p>
+    {% endif %}
+
+    <h2 class="text-2xl font-semibold mt-8 mb-4">Declined Bookings</h2>
+    {% if declined_user_details %}
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white rounded-lg shadow-md">
+                <thead class="bg-red-500 text-white">
+                    <tr>
+                        <th class="py-3 px-4 text-left">Full Name</th>
+                        <th class="py-3 px-4 text-left">Email</th>
+                        <th class="py-3 px-4 text-left">Username</th>
+                        <th class="py-3 px-4 text-left">Country</th>
+                        <th class="py-3 px-4 text-left">State</th>
+                        <th class="py-3 px-4 text-left">Service Date</th>
+                        <th class="py-3 px-4 text-left">Start Time</th>
+                        <th class="py-3 px-4 text-left">End Time</th>
+                        <th class="py-3 px-4 text-left">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700">
+                    {% for user in declined_user_details %}
+                        <tr class="hover:bg-red-100 transition duration-300">
+                            <td class="py-3 px-4 border-b">{{ user.full_name }}</td>
+                            <td class="py-3 px-4 border-b">{{ user.email }}</td>
+                            <td class="py-3 px-4 border-b">{{ user.username }}</td>
+                            <td class="py-3 px-4 border-b">{{ user.country }}</td>
+                            <td class="py-3 px-4 border-b">{{ user.state }}</td>
+                            <td class="py-3 px-4 border-b">{{ user.date }}</td>
+                            <td class="py-3 px-4 border-b">{{ user.start_time }}</td>
+                            <td class="py-3 px-4 border-b">{{ user.end_time }}</td>
+                            <td class="py-3 px-4 border-b">{{ user.status }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-center text-gray-600">No declined bookings found.</p>
+    {% endif %}
+</div>
+{% endblock %}

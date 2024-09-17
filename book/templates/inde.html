@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="jumbotron text-center my-5">
+    <h1 class="display-4">Welcome  {{ current_user.last_name }} to Service Arena Booking!</h1>
+    <p class="lead">You can now create services or book appointments with ease.</p>
+    <a class="btn btn-primary btn-lg" href="{{url_for('auth.register')}}" role="button">Book Now</a>
+</div>
+
+<!-- <div class="row text-center">
+    <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+            <img class="card-img-top" src="{{ url_for('static', filename='/profile_pics/astro.JPG') }}" alt="#">
+            <div class="card-body">
+                <h5 class="card-title"></h5>
+                <p class="card-text"></p>
+                <a href="#" class="btn btn-success">Book </a>
+            </div>
+        </div>
+    </div> -->
+    
+</div>
+{% endblock %}

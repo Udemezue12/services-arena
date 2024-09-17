@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto p-8 bg-white rounded-lg shadow-lg max-w-lg mt-10">
+    <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Register</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-4">
+            <label for="full_name" class="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
+            {{ form.full_name(class="form-input w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none", placeholder="Enter Full Name") }}
+        </div>
+
+        <div class="mb-4">
+            <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+            {{ form.username(class="form-input w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none", placeholder="Enter Username") }}
+        </div>
+
+        <div class="mb-4">
+            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
+            {{ form.email(class="form-input w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none", placeholder="Enter Email") }}
+        </div>
+
+        <div class="mb-4">
+            <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+            {{ form.password(class="form-input w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none", placeholder="Enter Password") }}
+        </div>
+
+        <div class="mb-4">
+            <label for="confirm_password" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
+            {{ form.confirm_password(class="form-input w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none", placeholder="Confirm Password") }}
+        </div>
+
+        <div class="mb-4">
+            {{ form.role.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+            {{ form.role(class="form-input w-full border border-gray-300 p-2 rounded-lg focus:outline-none cursor-not-allowed bg-gray-100", readonly=True, style="pointer-events: none;") }}
+            {% for error in form.role.errors %}
+            <small class="text-red-500">{{ error }}</small>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">Register</button>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('auth.login') }}" class="text-blue-500 hover:text-blue-700 transition duration-300">Already have an account?</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto py-8">
+    <h1 class="text-3xl font-semibold text-gray-800 mb-6">Edit Service</h1>
+    
+    <!-- Form to edit service -->
+    <form method="post" class="bg-white p-6 rounded-lg shadow-md">
+        {{ form.hidden_tag() }}
+        
+        <!-- Service Name Field -->
+        <div class="mb-4">
+            {{ form.name.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+            {{ form.name(class="form-control w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500") }}
+        </div>
+        
+        <!-- Description Field -->
+        <div class="mb-4">
+            {{ form.description.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+            {{ form.description(class="form-control w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500") }}
+        </div>
+        
+        <!-- Country Field -->
+        <div class="mb-4">
+            {{ form.country.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+            {{ form.country(class="form-control w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500") }}
+        </div>
+        
+        <!-- State Field -->
+        <div class="mb-4">
+            {{ form.state.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+            {{ form.state(class="form-control w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500") }}
+        </div>
+        
+        <!-- Price Field -->
+        <div class="mb-4">
+            {{ form.price.label(class="block text-gray-700 text-sm font-bold mb-2") }}
+            {{ form.price(class="form-control w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500") }}
+        </div>
+        
+        <!-- Submit Button -->
+        <div class="flex items-center justify-between">
+            {{ form.submit(class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

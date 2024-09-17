@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mx-auto py-10">
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto">
+    <h2 class="text-2xl font-bold text-center mb-4">Decline Appointment</h2>
+    {% if appointment %}
+    <p class="text-gray-700 text-center mb-6">
+      Are you sure you want to decline the appointment for the service "<strong
+        >{{ appointment.service_name }}</strong
+      >" on <strong>{{ appointment.date.strftime('%B %d, %Y') }}</strong>?
+    </p>
+    <form method="POST" class="flex justify-between">
+      <button
+        type="submit"
+        class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+      >
+        Decline
+      </button>
+      <a
+        href="{{ url_for('core.index') }}"
+        class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+      >
+        Cancel
+      </a>
+    </form>
+    {% else %}
+    <p class="text-red-500 text-center">Appointment details not found.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

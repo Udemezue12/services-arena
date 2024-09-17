@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mx-auto my-8 px-4">
+  <div class="bg-white shadow-md rounded-lg p-6">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Cancel Appointment</h2>
+    <p class="text-gray-700">
+      Are you sure you want to cancel this appointment for
+      <strong>{{ appointment.service_name }}</strong> on
+      <strong>{{ appointment.date }}</strong>?
+    </p>
+    <form method="POST" class="mt-4">
+      <!-- {{ form.hidden_tag() }} -->
+      <button
+        type="submit"
+        class="w-full bg-red-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-red-700 transition duration-300"
+      >
+        Cancel Appointment
+      </button>
+    </form>
+    <a
+      href="{{ url_for('core.index') }}"
+      class="block text-center text-blue-600 mt-4 hover:underline"
+      >Go Back</a
+    >
+  </div>
+</div>
+{% endblock %}

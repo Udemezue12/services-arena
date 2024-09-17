@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+    <!-- Dashboard Header -->
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-semibold text-gray-800">Provider Dashboard</h1>
+        {% if service %}
+         <a href="{{ url_for('booking_system.book_service', service_name=service.name) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Book A Service</a>
+        {% else %}
+        <p>No available service to book at this time.</p>
+        {% endif %}
+    </div>
+
+    <!-- Welcome Message -->
+    <h1 class="mb-4 text-center"><strong>Welcome {{ current_user.full_name }} to your Dashboard</strong></h1>
+    
+    <!-- Dashboard Content -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Notifications Section -->
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Notifications</h2>
+            {% if notifications %}
+                <ul class="list-disc pl-5">
+                    {% for notification in notifications %}
+                    <li class="mb-2">
+                        <span class="text-gray-700">{{ notification.content }}</span>
+                        <small class="text-gray-500">{{ notification.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-gray-500">No new notifications.</p>
+            {% endif %}
+        </div>
+
+        <!-- Quick Access Section -->
+       
+
+        <!-- Appointments Section -->
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Upcoming Appointments</h2>
+            {% if appointments %}
+                <ul class="list-none">
+                    {% for appointment in appointments %}
+                    <li class="mb-4 p-4 bg-gray-50 rounded-md shadow-sm">
+                        <div>
+                            <span class="font-semibold text-gray-800">Service:</span> {{ appointment.service_name }}
+                        </div>
+                        <div>
+                            <span class="font-semibold text-gray-800">Date:</span> {{ appointment.date.strftime('%Y-%m-%d') }}
+                        </div>
+                        <div>
+                            <span class="font-semibold text-gray-800">Time:</span> {{ appointment.start_time.strftime('%H:%M') }} - {{ appointment.end_time.strftime('%H:%M') }}
+                        </div>
+                        <div>
+                            <span class="font-semibold text-gray-800">Status:</span> 
+                            <span class="text-blue-600">{{ appointment.status }}</span>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-gray-500">No upcoming appointments.</p>
+            {% endif %}
+        </div>
+
+        <!-- Management Section -->
+        <div class="col-12 mb-4 bg-white shadow-md rounded-lg p-6">
+            <h4 class="text-center text-xl font-bold text-gray-800 mb-4">Book</h4>
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body text-center">
+                            {% for service in services %}
+                            <div class="mb-4">
+                                <h3 class="text-xl font-semibold">{{ service.name }}</h3>
+                                <p class="text-gray-700">{{ service.description }}</p>
+                                <a href="{{ url_for('booking_system.book_service', service_name=service.name) }}" 
+                                   class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded cursor-pointer block mt-4">
+                                   Book {{ service.name }}
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="col-12 mb-4 bg-white shadow-md rounded-lg p-6">
+            <h4 class="text-center text-xl font-bold text-gray-800 mb-4"></h4>
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Cancel this Service</h5>
+                            {% if notification %}
+                            <a href="{{ url_for("booking_system.cancel_appointment", appointment_id=appointment.id) }}" class="btn btn-primary">Cancel</a>
+                            {% else %}
+                                 <p>You have no notifications.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-12 mb-4 bg-white shadow-md rounded-lg p-6">
+            <h4 class="text-center text-xl font-bold text-gray-800 mb-4">Add A Review</h4>
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Add a Review</h5>
+                            {% if service %}
+                            <a href="{{ url_for("booking_system.add_review", service_name=service.name) }}" class="btn btn-primary">Add</a>
+                            {% else %}
+                            <p>No services created.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mb-4 bg-white shadow-md rounded-lg p-6">
+            <h4 class="text-center text-xl font-bold text-gray-800 mb-4">Add A Reviews</h4>
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Review</h5>
+                            {% if service %}
+                            <a href="{{ url_for('booking_system.reviews') }}" class="btn btn-primary">Check</a>
+                            {% else %}
+                            <p>No services created.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        
+
+     
+
+<style>
+    .card {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .card-title {
+        font-size: 1.25rem;
+        margin-bottom: 10px;
+    }
+    .btn-primary {
+        font-size: 1rem;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,90 @@
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.navbar {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.jumbotron {
+    background-color: #f8f9fa;
+    padding: 3rem 2rem;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+}
+
+.card-img-top {
+    border-radius: 10px 10px 0 0;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+/* Form Styling */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    padding: 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-block {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* Mobile Responsive */
+@media (max-width: 576px) {
+    .form-control {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+}
+
+
+/* ///// */
+.my-button {
+    width: 60px; /* Adjust this based on your layout */
+    height: 60px; /* Same size as "Need Help" */
+    background-color: #007bff; /* Example background color */
+    border-radius: 50%; /* To make it round like the "Need Help" button */
+    color: white; /* Text color */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px; /* Adjust font size */
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slight shadow for emphasis */
+  }
+
+.my-button:hover {
+    background-color: #0056b3; /* Darken on hover */
+  }
+

@@ -1,0 +1,135 @@
+{% extends "base.html" %} {% block content %}
+<section id="registration" class="py-16">
+  <h2 class="text-center text-3xl font-bold text-gray-800 mb-8">
+    <span class="underline decoration-blue-500 decoration-4"></span>
+  </h2>
+
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Teacher Registration on the Left -->
+
+
+
+      <div class="flex justify-start">
+        <div
+          class="max-w-md w-full bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+        >
+          <a
+            href="{{ url_for('auth.admin_register') }}"
+            class="stretched-link"
+          ></a>
+          <div class="py-8 px-6 text-center">
+            <h3 class="text-3xl font-semibold text-gray-800">Admin Service</h3>
+            <p class="text-gray-600 mt-4">
+              
+              Register as an start booking for services!!.
+            </p>
+          </div>
+          <div class="bg-green-500 py-4 rounded-b-lg text-center">
+            <a
+              href="{{ url_for('auth.admin_register') }}"
+              class="text-white text-lg font-medium hover:bg-green-600 transition-colors duration-300 px-6 py-2 rounded-lg inline-block"
+            >
+              Register Now
+            </a>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      <div class="flex justify-start">
+        <div
+          class="max-w-md w-full bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+        >
+          <a
+            href="{{ url_for('auth.customer_register') }}"
+            class="stretched-link"
+          ></a>
+          <div class="py-8 px-6 text-center">
+            <h3 class="text-3xl font-semibold text-gray-800">Book Service</h3>
+            <p class="text-gray-600 mt-4">
+              
+              Register as an start booking for services!!.
+            </p>
+          </div>
+          <div class="bg-green-500 py-4 rounded-b-lg text-center">
+            <a
+              href="{{ url_for('auth.customer_register') }}"
+              class="text-white text-lg font-medium hover:bg-green-600 transition-colors duration-300 px-6 py-2 rounded-lg inline-block"
+            >
+              Register Now
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end">
+        <div
+          class="max-w-md w-full bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+        >
+          <a
+            href="{{ url_for('auth.provider_register') }}"
+            class="stretched-link"
+          ></a>
+          <div class="py-8 px-6 text-center">
+            <h3 class="text-3xl font-semibold text-gray-800">Create Service</h3>
+            <p class="text-gray-600 mt-4">
+                Register as a service provider and begin your journey towards excellence.
+            </p>
+          </div>
+          <div class="bg-blue-500 py-4 rounded-b-lg text-center">
+            <a
+              href="{{ url_for('auth.provider_register') }}"
+              class="text-white text-lg font-medium hover:bg-blue-600 transition-colors duration-300 px-6 py-2 rounded-lg inline-block"
+            >
+              Register Now
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

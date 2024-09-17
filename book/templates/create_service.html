@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto my-10 p-8 bg-white shadow-md rounded-lg">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Create a New Service</h2>
+    <div class="flex justify-center">
+        <div class="w-full max-w-md">
+            <!-- Service Creation Form -->
+            <form method="POST" enctype="multipart/form-data" class="space-y-4">
+                {{ form.hidden_tag() }}
+
+                <!-- Service Name -->
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700">Service Name</label>
+                    {{ form.name(class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500", placeholder="Enter Service Name") }}
+                    {% if form.name.errors %}
+                        <small class="text-red-500">{{ form.name.errors[0] }}</small>
+                    {% endif %}
+                </div>
+
+                <!-- Description -->
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                    {{ form.description(class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500", placeholder="Enter Service Description") }}
+                    {% if form.description.errors %}
+                        <small class="text-red-500">{{ form.description.errors[0] }}</small>
+                    {% endif %}
+                </div>
+
+                <!-- Country -->
+                <div>
+                    <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
+                    {{ form.country(id="country", class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500") }}
+                    {% if form.country.errors %}
+                        <small class="text-red-500">{{ form.country.errors[0] }}</small>
+                    {% endif %}
+                </div>
+
+                <!-- State -->
+                <div>
+                    <label for="state" class="block text-sm font-medium text-gray-700">State</label>
+                    {{ form.state(id="state", class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500") }}
+                    {% if form.state.errors %}
+                        <small class="text-red-500">{{ form.state.errors[0] }}</small>
+                    {% endif %}
+                </div>
+
+                <!-- Price -->
+                <div>
+                    <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                    {{ form.price(class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500", placeholder="Enter Price") }}
+                    {% if form.price.errors %}
+                        <small class="text-red-500">{{ form.price.errors[0] }}</small>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition ease-in-out duration-300">Create Service</button>
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('booking_system.view_provider_services') }}" class="text-blue-500 hover:text-blue-700 transition duration-300">View Services</a>
+                </div>
+            </form>
+
+            <!-- Toggle Availability Switch (Visible After Service Creation) -->
+            <!-- {% if service %}
+            <div class="mt-6">
+                <form action="{{ url_for('booking_system.toggle_availability', service_name=service.name) }}" method="POST">
+                    <label for="availability-toggle" class="inline-flex relative items-center cursor-pointer">
+                        <input type="checkbox" id="availability-toggle" class="sr-only" name="is_available" value="1" {% if service.is_available %}checked{% endif %} onchange="this.form.submit()">
+                        <div class="w-11 h-6 bg-gray-200 rounded-full peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-500 peer-checked:bg-green-600"></div>
+                        <div class="peer-checked:translate-x-5 peer-checked:border-white absolute left-1 top-0.5 bg-white border-gray-300 border rounded-full h-5 w-5 transition"></div>
+                    </label> -->
+                <!-- </form> -->
+            <!-- </div>
+            {% endif %} -->
+        </div>
+    </div>
+</div>
+
+<!-- Custom Tailwind CSS styles for the toggle -->
+<style>
+.toggle-checkbox:checked + .toggle-label {
+    background-color: #48bb78; /* Green when active */
+}
+.toggle-checkbox:checked + .toggle-label .toggle-dot {
+    transform: translateX(1.5rem); /* Move dot to the right when active */
+}
+</style>
+
+<!-- JavaScript to handle form submission on toggle change -->
+<script>
+    document.getElementById('toggleAvailability').addEventListener('change', function() {
+        let isAvailable = this.checked;
+        document.getElementById('availabilityStatus').value = isAvailable;
+        this.form.submit(); // Submit the form automatically when toggled
+    });
+</script>
+<script src="/static/js/ban.js"></script>
+{% endblock %}

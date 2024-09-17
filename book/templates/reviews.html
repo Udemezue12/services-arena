@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto my-10 p-8 bg-white shadow-md rounded-lg">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Reviews for {{ service.name }}</h2>
+    
+    {% if reviews %}
+        <ul class="space-y-4">
+            {% for review in reviews %}
+                <li class="bg-gray-50 p-4 rounded-lg shadow-md">
+                    <div class="flex items-center justify-between">
+                        <strong class="text-lg font-semibold text-gray-700">{{ review.reviewer_name }}</strong>
+                        <span class="text-sm text-yellow-500">Rating: {{ review.rating }} / 5</span>
+                    </div>
+                    <p class="mt-2 text-gray-600">{{ review.comment }}</p>
+                    <small class="text-sm text-gray-500">Reviewed on: {{ review.created_at.strftime('%Y-%m-%d') }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-center text-gray-600 mt-4">No reviews yet. Be the first to review this service!</p>
+    {% endif %}
+</div>
+{% endblock %}

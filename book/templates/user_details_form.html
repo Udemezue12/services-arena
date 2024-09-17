@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto mt-10 max-w-2xl">
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        
+        <div class="p-6">
+            <div class="flex justify-center">
+                {% if user_details.profile_pic %}
+                    <img src="{{ url_for('static', filename='profile_pics/' + user_details.profile_pic) }}" alt="Profile Picture" class="rounded-full border-4 border-gray-200 shadow-lg" style="width: 150px; height: 150px;">
+                {% else %}
+                    <img src="{{ url_for('static', filename='default_profile.png') }}" alt="Default Profile Picture" class="rounded-full border-4 border-gray-200 shadow-lg" style="width: 150px; height: 150px;">
+                {% endif %}
+            </div>
+            <div class="text-center mt-4">
+                <h4 class="text-xl font-bold text-gray-900">{{ user_details.user_name }}</h4>
+                {% if user_details.bio %}
+                    <p class="text-gray-600">{{ user_details.bio }}</p>
+                {% else %}
+                    <p class="text-gray-500 italic">No bio available</p>
+                {% endif %}
+            </div>
+            <hr class="my-6">
+            <ul class="list-none">
+                <li class="py-2">
+                    <span class="font-semibold text-gray-800">Date of Birth: </span>{{ user_details.date_of_birth.strftime('%B %d, %Y') }}
+                </li>
+                <li class="py-2">
+                    <span class="font-semibold text-gray-800">Phone Number: </span>{{ user_details.phone_number }}
+                </li>
+                <li class="py-2">
+                    <span class="font-semibold text-gray-800">Certificates: </span>
+                    {% if user_details.certificates %}
+                        <a href="{{ url_for('static', filename='certificates/' + user_details.certificates) }}" class="text-blue-500 hover:underline" target="_blank">View Certificate</a>
+                    {% else %}
+                        <span class="text-gray-500">No certificates available</span>
+                    {% endif %}
+                </li>
+            </ul>
+            <div class="text-center mt-6">
+                <a href="{{ url_for('auth.user_details', user_name=user_details.user_name) }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

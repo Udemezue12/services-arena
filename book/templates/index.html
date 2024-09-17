@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-screen">
+    <div class="text-center py-16 px-8 bg-white shadow-lg rounded-lg">
+        <h1 class="text-5xl font-bold text-gray-800 mb-4">
+            WELCOME TO SERVICES ARENA!
+        </h1>
+        <p class="text-xl text-gray-600 mb-8">
+            You can now create services or book appointments with ease.
+        </p>
+        <a href="{{ url_for('auth.register') }}" class="bg-blue-600 text-white font-semibold text-lg py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
+            Book Now
+        </a>
+    </div>
+</div>
+{% endblock %}

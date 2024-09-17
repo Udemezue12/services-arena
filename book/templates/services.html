@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-5 font-bold text-4xl text-gray-800">Explore Our Services</h1>
+
+    <div class="row">
+        {% if services %}
+            {% for service in services %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-lg rounded-lg overflow-hidden">
+                        <!-- Service Info -->
+                        <div class="card-body p-4 bg-white">
+                            <h5 class="card-title text-xl font-bold text-gray-800">{{ service.name }}</h5>
+                            <p class="card-text text-gray-600 mb-3">{{ service.description | truncate(100) }}</p>
+
+                            <!-- Service Price and Provider -->
+                            <div class="mb-3">
+                                <p class="text-sm text-gray-600"><strong>Price:</strong> ${{ service.price }}</p>
+                                <p class="text-sm text-gray-600"><strong>Provider:</strong> {{ service.provider_name }}</p>
+                                <p class="text-sm text-gray-600"><strong>Location:</strong> {{ service.state }}, {{ service.country }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Call to Action Button -->
+                        <div class="card-footer bg-transparent border-0">
+                            <form action="{{ url_for('booking_system.book_service', service_name=service.name) }}" method="get" style="display: inline;">
+                                <button type="submit" type="submit" class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300" >
+                                    Book Service
+                                </button>
+                            </form>
+                        </div>
+                       
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center text-xl text-gray-600">No services available at the moment.</p>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .card:hover {
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+    }
+</style>
+{% endblock %}

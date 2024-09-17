@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto my-10 p-8 bg-white shadow-md rounded-lg">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Inbox</h2>
+    
+    <div class="flex justify-center">
+        <div class="w-full max-w-lg">
+            <!-- Display notifications as clickable inbox items -->
+            <ul class="divide-y divide-gray-200">
+                {% for notification, full_name in notifications %}
+                <li class="py-4 px-6 hover:bg-gray-100 transition ease-in-out duration-200">
+                    <a href="{{ url_for('booking_system.view_notification', notification_id=notification.id) }}" class="block">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="font-semibold text-gray-800">{{ full_name }}</h3>
+                                <p class="text-sm text-gray-500">
+                                    {{ notification.message[:50] }}{% if notification.message|length > 50 %}...{% endif %}
+                                </p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-gray-400">{{ notification.timestamp.strftime('%b %d, %Y') }}</span>
+                                {% if not notification.read %}
+                                <span class="ml-2 inline-block w-2 h-2 bg-blue-500 rounded-full" id="dot-{{ notification.id }}"></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    function markAsRead(notificationId, element) {
+        fetch('/view_notification_as_read/' + notificationId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token() }}'  // If using CSRF protection, include token here
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Hide the blue dot
+                document.getElementById('dot-' + notificationId).style.display = 'none';
+            }
+        });
+    }
+    </script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto p-8 bg-white rounded-lg shadow-lg max-w-lg mt-10">
+    <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Login</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-4">
+            <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+            {{ form.username(class="form-input w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none", placeholder="Enter Username") }}
+        </div>
+
+        <div class="mb-4">
+            <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+            {{ form.password(class="form-input w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none", placeholder="Enter Password") }}
+        </div>
+
+        <div class="mb-4 flex items-center">
+            {{ form.remember(class="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out") }}
+            <label class="ml-2 block text-gray-900">Remember Me</label>
+        </div>
+
+        <button type="submit" class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">Login</button>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('auth.register') }}" class="text-blue-500 hover:text-blue-700 transition duration-300">Don't have an account? Register here.</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
