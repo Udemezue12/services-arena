@@ -19,7 +19,6 @@ def create_app():
 
     with app.app_context():
         from book.models import User, Appointment, Service, Notification, Review
-        from book.email_utils import send_mail
 
    
 

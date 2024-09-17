@@ -8,7 +8,7 @@ from flask import redirect, render_template, Blueprint, flash, url_for, request,
 from sqlalchemy.exc import IntegrityError
 from flask_login import current_user, login_user, logout_user, login_required
 from book.extensions import db, csrf
-from book.email_utils import send_mail
+# from book.email_utils import send_mail
 from book.models import User, Service, Notification, Appointment, Review, User_Details, Complaint
 from book.fetch import states, countries
 from .forms import CustomerRegsiterForm, ProviderRegsiterForm, AdminRegsiterForm, LoginForm, ServiceForm, AppointmentForm, NotificationForm, AvailabilityForm, UserDetailsForm, BookingForm, ComplaintForm
@@ -525,36 +525,36 @@ def book_service(service_name):
                 flash("User details not found. Please update your profile.", "danger")
                 return redirect(url_for('core.index'))
 
-            user_a_email = provider.email
-            user_b_email = current_user.email
-            subject = "New Appointment Booking"
+            # user_a_email = provider.email
+            # user_b_email = current_user.email
+            # subject = "New Appointment Booking"
 
-            email_content_user_a = f"""
-            Hi {provider.full_name},
+            # email_content_user_a = f"""
+            # Hi {provider.full_name},
 
-            You have a new appointment request from {current_user.full_name} {current_user.email}, {user_details.phone_number}
-            for your service "{service.name}" on {form.date.data} from {form.start_time.data} to {form.end_time.data}.
-            Please log in to your dashboard to accept or decline this appointment.
+            # You have a new appointment request from {current_user.full_name} {current_user.email}, {user_details.phone_number}
+            # for your service "{service.name}" on {form.date.data} from {form.start_time.data} to {form.end_time.data}.
+            # Please log in to your dashboard to accept or decline this appointment.
 
-            Regards,
-            Your Service Team
-            """
-            email_content_user_b = f"""
-            Hi {current_user.full_name},
+            # Regards,
+            # Your Service Team
+            # """
+            # email_content_user_b = f"""
+            # Hi {current_user.full_name},
 
-            Your booking for the service "{service.name} {service.provider_name}" on {form.date.data} from {form.start_time.data} to {form.end_time.data} has been submitted.
-            You will be notified once the service provider confirms the appointment.
+            # Your booking for the service "{service.name} {service.provider_name}" on {form.date.data} from {form.start_time.data} to {form.end_time.data} has been submitted.
+            # You will be notified once the service provider confirms the appointment.
 
-            Regards,
-            Your Service Team
-            """
+            # Regards,
+            # Your Service Team
+            # """
 
-            try:
-                send_mail(user_a_email, subject, email_content_user_a)
-                send_mail(user_b_email, subject, email_content_user_b)
-            except Exception as email_error:
-                flash(f"An error occurred while sending emails: {
-                      str(email_error)}", 'danger')
+            # # try:
+            # #     send_mail(user_a_email, subject, email_content_user_a)
+            # #     send_mail(user_b_email, subject, email_content_user_b)
+            # # except Exception as email_error:
+            # #     flash(f"An error occurred while sending emails: {
+            # #           str(email_error)}", 'danger')
 
             notification_user_a = Notification(
                 user_name=provider.full_name,
@@ -604,16 +604,16 @@ def accept(appointment_id):
 
         user_b = User.query.filter_by(full_name=appointment.user_name).first()
         if user_b:
-            subject = "Appointment Accepted"
-            email_content = f"""
-            Hi {user_b.full_name},
+            # subject = "Appointment Accepted"
+            # email_content = f"""
+            # Hi {user_b.full_name},
 
-            Your appointment for the service "{appointment.service_name}" on {appointment.date} has been accepted.
+            # Your appointment for the service "{appointment.service_name}" on {appointment.date} has been accepted.
 
-            Regards,
-            Your Service Team
-            """
-            send_mail(user_b.email, subject, email_content)
+            # Regards,
+            # Your Service Team
+            # """
+            # send_mail(user_b.email, subject, email_content)
 
             notification_user_b = Notification(
                 user_name=user_b.full_name,
@@ -654,16 +654,16 @@ def decline_appointment(appointment_id):
 
         user_b = User.query.filter_by(full_name=appointment.user_name).first()
         if user_b:
-            subject = "Appointment Declined"
-            email_content = f"""
-            Hi {user_b.full_name},
+            # subject = "Appointment Declined"
+            # email_content = f"""
+            # Hi {user_b.full_name},
 
-            Your appointment for the service "{appointment.service_name}" on {appointment.date} has been declined.
+            # Your appointment for the service "{appointment.service_name}" on {appointment.date} has been declined.
 
-            Regards,
-            Your Service Team
-            """
-            send_mail(user_b.email, subject, email_content)
+            # Regards,
+            # Your Service Team
+            # """
+            # send_mail(user_b.email, subject, email_content)
 
             notification_user_b = Notification(
                 user_name=user_b.full_name,
@@ -705,16 +705,16 @@ def cancel_appointment(appointment_id):
             provider = User.query.filter_by(
                 full_name=service.provider_name).first()
             if provider:
-                subject = "Appointment Cancelled"
-                email_content = f"""
-                Hi {provider.full_name},
+                # subject = "Appointment Cancelled"
+                # email_content = f"""
+                # Hi {provider.full_name},
 
-                The appointment for the service "{appointment.service_name}" on {appointment.date} has been cancelled by the user.
+                # The appointment for the service "{appointment.service_name}" on {appointment.date} has been cancelled by the user.
 
-                Regards,
-                Your Service Team
-                """
-                send_mail(provider.email, subject, email_content)
+                # Regards,
+                # Your Service Team
+                # """
+                # send_mail(provider.email, subject, email_content)
 
                 flash("Appointment cancelled successfully!", "success")
             else:
