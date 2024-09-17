@@ -81,9 +81,7 @@ def customer_register():
                 if user.is_authenticated:
                     logout_user()
                 print(f"User role is: {user.role}")
-                if user.role == 'customer':
-                    print(f"Redirecting to user_details with user_name: {
-                          user.full_name}")
+                
 
                     return redirect(url_for('auth.user_details', user_name=user.full_name))
 
@@ -135,9 +133,7 @@ def admin_register():
 
                 if user.is_authenticated:
                     logout_user()
-                if user.role == 'admin':
-                    print(f"Redirecting to user_details with user_name: {
-                          user.full_name}")
+                
 
                     return redirect(url_for('auth.user_details', user_name=user.full_name))
 
@@ -188,8 +184,7 @@ def provider_register():
 
                 if user.is_authenticated:
                     logout_user()
-                if user.role == 'provider':
-                    return redirect(url_for('auth.user_details', user_name=user.full_name))
+                
 
                 flash('Thanks for registering!', 'success')
                 return redirect(url_for('auth.login'))
