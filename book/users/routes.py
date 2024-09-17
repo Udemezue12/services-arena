@@ -194,6 +194,10 @@ def provider_register():
     return render_template('provider_register.html', form=form)
 
 
+
+
+
+
 @auth.route('/user/form/<string:user_name>', methods=['GET', 'POST'])
 @login_required
 def user_details(user_name):
@@ -204,68 +208,62 @@ def user_details(user_name):
     form = UserDetailsForm()
     if request.method == 'POST' and form.validate_on_submit():
         phone_number = form.phone_number.data
-        existing_user_phone = User_Details.query.filter_by(
-            phone_number=phone_number).first()
+        existing_user_phone = User_Details.query.filter_by(phone_number=phone_number).first()
 
         if existing_user_phone:
             flash('This phone number has already been used.', 'danger')
-            return redirect(url_for('auth.user_details'))
-        else:
-            try:
-                profile_pic_dir = 'book/static/profile_pics'
-                certificates_dir = 'book/static/certificates'
+            return redirect(url_for('auth.user_details', user_name=user_name))  # Fixed
 
-                if not os.path.exists(profile_pic_dir):
-                    os.makedirs(profile_pic_dir)
+        try:
+            profile_pic_dir = 'book/static/profile_pics'
+            certificates_dir = 'book/static/certificates'
 
-                if not os.path.exists(certificates_dir):
-                    os.makedirs(certificates_dir)
+            if not os.path.exists(profile_pic_dir):
+                os.makedirs(profile_pic_dir)
 
-                if form.profile_pic.data:
-                    profile_pic_file = form.profile_pic.data
-                    profile_pic_filename = secure_filename(
-                        profile_pic_file.filename)
-                    profile_pic_path = os.path.join(
-                        profile_pic_dir, profile_pic_filename)
-                    profile_pic_file.save(profile_pic_path)
-                else:
-                    profile_pic_filename = None
+            if not os.path.exists(certificates_dir):
+                os.makedirs(certificates_dir)
 
-                if form.certificates.data:
-                    certificates_file = form.certificates.data
-                    certificates_filename = secure_filename(
-                        certificates_file.filename)
-                    certificates_path = os.path.join(
-                        certificates_dir, certificates_filename)
-                    certificates_file.save(certificates_path)
-                else:
-                    certificates_filename = None
+            if form.profile_pic.data:
+                profile_pic_file = form.profile_pic.data
+                profile_pic_filename = secure_filename(profile_pic_file.filename)
+                profile_pic_path = os.path.join(profile_pic_dir, profile_pic_filename)
+                profile_pic_file.save(profile_pic_path)
+            else:
+                profile_pic_filename = None
 
-                user_details = User_Details.query.filter_by(
-                    user_name=current_user.full_name).first()
-                if not user_details:
-                    user_details = User_Details(
-                        user_name=current_user.full_name)
-                    user_details.profile_pic = profile_pic_filename
-                    user_details.certificates = certificates_filename
-                    user_details.date_of_birth = form.date_of_birth.data
-                    user_details.phone_number = form.phone_number.data
-                    user_details.bio = form.bio.data
+            certificate_filenames = []
+            for certificate_file in form.certificates.data:
+                if len(certificate_filenames) < 5:
+                    certificate_filename = secure_filename(certificate_file.filename)
+                    certificate_path = os.path.join(certificates_dir, certificate_filename)
+                    certificate_file.save(certificate_path)
+                    certificate_filenames.append(certificate_filename)
 
-                    db.session.add(user_details)
-                    db.session.commit()
+            user_details = User_Details.query.filter_by(user_name=current_user.full_name).first()
+            if not user_details:
+                user_details = User_Details(user_name=current_user.full_name)
+                user_details.profile_pic = profile_pic_filename
+                user_details.certificates = ",".join(certificate_filenames) 
+                user_details.date_of_birth = form.date_of_birth.data
+                user_details.phone_number = phone_number
+                user_details.bio = form.bio.data
 
-                    flash('User details submitted successfully!', 'success')
-                    return redirect(url_for('core.index'))
+                db.session.add(user_details)
+                db.session.commit()
 
-            except ValueError as e:
-                flash(str(e), 'danger')
-            except IntegrityError as e:
-                db.session.rollback()
-                flash(
-                    'An integrity error occurred. Please ensure your data is correct.', 'danger')
+                flash('User details submitted successfully!', 'success')
+                return redirect(url_for('core.index'))
+
+        except ValueError as e:
+            flash(str(e), 'danger')
+        except IntegrityError as e:
+            db.session.rollback()
+            flash('An integrity error occurred. Please ensure your data is correct.', 'danger')
 
     return render_template('user_details.html', form=form)
+
+
 
 
 @auth.route('/user/details/<string:user_name>', methods=['GET', 'POST'])
@@ -428,46 +426,47 @@ def create_service():
     return render_template('create_service.html', form=form)
 
 
-# @booking_system.route('/edit/service/<service_name>', methods=['GET', 'POST'])
-# @login_required
-# def edit_service(service_name):
-#     if current_user.role != 'provider':
-#         flash('Only providers can edit services.')
-#         return redirect(url_for('core.index'))
+@booking_system.route('/edit/service/<service_name>', methods=['GET', 'POST'])
+@login_required
+@csrf.exempt
+def edit_service(service_name):
+    if current_user.role != 'provider':
+        flash('Only providers can edit services.')
+        return redirect(url_for('core.index'))
 
-#     service = Service.query.filter_by(name=service_name).first_or_404()
+    service = Service.query.filter_by(name=service_name).first_or_404()
 
-#     if service.provider_name != current_user.full_name:
-#         flash('You do not have permission to edit this service.', 'danger')
-#         return redirect(url_for('booking_system.view_provider_services'))
+    if service.provider_name != current_user.full_name:
+        flash('You do not have permission to edit this service.', 'danger')
+        return redirect(url_for('booking_system.view_provider_services'))
 
-#     form = ServiceForm()
+    form = ServiceForm()
 
-#     if request.method == 'POST':
+    if request.method == 'POST':
 
-#         selected_country = request.form.get('country')
-#         form.state.choices = [(state, state)
-#                               for state in states.get(selected_country, [])]
-#         form.country.choices = [(country, country) for country in countries]
+        selected_country = request.form.get('country')
+        form.state.choices = [(state, state)
+                              for state in states.get(selected_country, [])]
+        form.country.choices = [(country, country) for country in countries]
 
-#     if form.validate_on_submit():
-#         service.name = form.name.data
-#         service.description = form.description.data
-#         service.country = form.country.data
-#         service.state = form.state.data
-#         service.price = float(form.price.data)
+    if form.validate_on_submit():
+        service.name = form.name.data
+        service.description = form.description.data
+        service.country = form.country.data
+        service.state = form.state.data
+        service.price = float(form.price.data)
 
-#         db.session.commit()
-#         flash('Service updated successfully', 'success')
-#         return redirect(url_for('booking_system.view_provider_services'))
-#     elif request.method == 'GET':
-#         form.name.data = service.name
-#         form.description.data = service.description
-#         form.country.data = service.country
-#         form.state.data = service.state
-#         form.price.data = service.price
+        db.session.commit()
+        flash('Service updated successfully', 'success')
+        return redirect(url_for('booking_system.view_provider_services'))
+    elif request.method == 'GET':
+        form.name.data = service.name
+        form.description.data = service.description
+        form.country.data = service.country
+        form.state.data = service.state
+        form.price.data = service.price
 
-#     return render_template('edit_service.html', form=form, service=service)
+    return render_template('edit_service.html', form=form, service=service)
 
 
 @booking_system.route('/book/service/<string:service_name>', methods=['GET', 'POST'])
@@ -820,22 +819,31 @@ def reactivate_user(user_name):
     return redirect(url_for('booking_system.view_all_users'))
 
 
+
 @booking_system.route('/admin/delete/user/<user_name>', methods=['POST'])
 @csrf.exempt
 @login_required
 def delete_user(user_name):
     if current_user.role != 'admin':
-        flash("You do not have permission to access this page.")
+        flash("You do not have permission to access this page.", "danger")
         return redirect(url_for('core.index'))
+    
     user = User.query.filter_by(full_name=user_name).first()
+    
     if user:
-        db.session.delete(user)
-        db.session.commit()
-        flash(f"{user.full_name} has been deleted")
+        try:
+            # Delete the user
+            db.session.delete(user)
+            db.session.commit()
+            flash(f"User {user.full_name} has been deleted.", "success")
+        except IntegrityError:
+            db.session.rollback()
+            flash("An error occurred while deleting the user. Integrity constraint failed.", "danger")
     else:
-        flash("User not Found")
-
+        flash("User not found.", "warning")
+    
     return redirect(url_for('booking_system.view_all_users'))
+
 
 
 @booking_system.route('/admin/view_all_users', methods=['GET'])

@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Optional, Regexp
-from wtforms import StringField, SubmitField, PasswordField, EmailField, SelectField, IntegerField, BooleanField, DateField, TimeField, TextAreaField, FileField
+from wtforms import StringField, SubmitField, PasswordField, EmailField, SelectField, IntegerField, BooleanField, DateField, TimeField, TextAreaField, FileField, MultipleFileField
+
 from flask_wtf.file import FileAllowed
 from flask_login import current_user
 from book.models import User, Service
@@ -15,9 +16,9 @@ class LoginForm(FlaskForm):
 
 
 class UserDetailsForm(FlaskForm):
-    profile_pic = FileField('Profile Pic', validators=[Optional(), FileAllowed(
+    profile_pic = FileField('Profile Pic', validators=[DataRequired(), FileAllowed(
         ['jpg', 'png', 'jpeg'], 'Images Only')])
-    certificates = FileField('Certificates', validators=[
+    certificates = MultipleFileField('Certificates', validators=[
         Optional(),
         FileAllowed(['jpg', 'png', 'jpeg', 'pdf'],
                     'Only images or PDFs allowed!')

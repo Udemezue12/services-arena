@@ -23,13 +23,13 @@
         <!-- Country Field -->
         <div class="mb-4">
             {{ form.country.label(class="block text-gray-700 text-sm font-bold mb-2") }}
-            {{ form.country(class="form-control w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500") }}
+            {{ form.country(id="country", class="form-control w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500") }}
         </div>
         
         <!-- State Field -->
         <div class="mb-4">
             {{ form.state.label(class="block text-gray-700 text-sm font-bold mb-2") }}
-            {{ form.state(class="form-control w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500") }}
+            {{ form.state(id="country", class="form-control w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500") }}
         </div>
         
         <!-- Price Field -->
@@ -44,4 +44,6 @@
         </div>
     </form>
 </div>
+<script src="/static/js/ban.js"></script>
+
 {% endblock %}
