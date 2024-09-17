@@ -80,7 +80,6 @@ def customer_register():
 
                 if user.is_authenticated:
                     logout_user()
-                
 
                     return redirect(url_for('auth.user_details', user_name=user.full_name))
 
@@ -132,7 +131,6 @@ def admin_register():
 
                 if user.is_authenticated:
                     logout_user()
-                
 
                     return redirect(url_for('auth.user_details', user_name=user.full_name))
 
@@ -183,7 +181,6 @@ def provider_register():
 
                 if user.is_authenticated:
                     logout_user()
-                
 
                 flash('Thanks for registering!', 'success')
                 return redirect(url_for('auth.login'))
@@ -558,15 +555,11 @@ def book_service(service_name):
 
             notification_user_a = Notification(
                 user_name=provider.full_name,
-                message=f"You have a new appointment request from {current_user.full_name}, ({current_user.email}, {
-                    user_details.phone_number} for service '{service.name}' on {form.date.data}.",
-                read=False
+                message=f"You have a new appointment request from {current_user.full_name}, ({current_user.email}, {user_details.phone_number}) for service '{service.name}' on {form.date.data}.", read=False
             )
             notification_user_b = Notification(
                 user_name=current_user.full_name,
-                message=f"Your booking request for service '{service.name}' on {
-                    form.date.data} has been submitted and is awaiting confirmation from {provider.full_name}.",
-                read=False
+                message=f"Your booking request for service '{service.name}' on {form.date.data} has been submitted and is awaiting confirmation from {provider.full_name}.", read=False
             )
 
             db.session.add(notification_user_a)
@@ -594,9 +587,10 @@ def accept(appointment_id):
         return redirect(url_for('core.index'))
 
     if appointment.status in ['Confirmed', 'Declined']:
-        flash(f"This appointment has already been {
-              appointment.status.lower()}.", "info")
+        flash(f"This appointment has already been {appointment.status.lower()}.", "info")
         return redirect(url_for('core.index'))
+    
+
 
     if request.method == 'POST':
         appointment.status = 'Confirmed'
@@ -617,10 +611,7 @@ def accept(appointment_id):
 
             notification_user_b = Notification(
                 user_name=user_b.full_name,
-                message=f"Your appointment for service '{appointment.service_name}' on {
-                    appointment.date} has been accepted.",
-                read=False
-            )
+                message=f"Your appointment for service '{appointment.service_name}' on {appointment.date} has been accepted.", read=False)
             db.session.add(notification_user_b)
             db.session.commit()
 
@@ -644,8 +635,7 @@ def decline_appointment(appointment_id):
         return redirect(url_for('core.index'))
 
     if appointment.status in ['Confirmed', 'Declined']:
-        flash(f"This appointment has already been {
-              appointment.status.lower()}.", "info")
+        flash(f"This appointment has already been {appointment.status.lower()}.", "info")
         return redirect(url_for('core.index'))
 
     if request.method == 'POST':
@@ -667,10 +657,7 @@ def decline_appointment(appointment_id):
 
             notification_user_b = Notification(
                 user_name=user_b.full_name,
-                message=f"Your appointment for service '{appointment.service_name}' on {
-                    appointment.date} has been declined.",
-                read=False
-            )
+                message=f"Your appointment for service '{appointment.service_name}' on {appointment.date} has been declined.", read=False )
             db.session.add(notification_user_b)
             db.session.commit()
 
@@ -792,8 +779,7 @@ def cancel_booking(user_name, service_name):
     if booking:
         booking.status = 'Cancelled'
         db.session.commit()
-        flash(f"Booking for {booking.user_name} with service {
-              booking.service_name} has been cancelled.")
+        flash(f"Booking for {booking.user_name} with service {booking.service_name} has been cancelled.")
     else:
         flash("Booking not found.")
 
@@ -1103,7 +1089,6 @@ def view_provider_complaints():
 @booking_system.route('/admin/provider_respond/<int:complaint_id>', methods=['GET', 'POST'])
 @login_required
 @csrf.exempt
-
 def respond_provider_complaint(complaint_id):
     if current_user.role != 'admin':
         flash('Access restricted to admins.', 'danger')
