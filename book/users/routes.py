@@ -80,7 +80,6 @@ def customer_register():
 
                 if user.is_authenticated:
                     logout_user()
-                print(f"User role is: {user.role}")
                 
 
                     return redirect(url_for('auth.user_details', user_name=user.full_name))
