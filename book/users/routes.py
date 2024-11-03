@@ -42,9 +42,11 @@ def index():
             return redirect(url_for('booking_system.list_services'))
         elif current_user.role == 'provider':
             return redirect(url_for("booking_system.view_provider_services"))
-        else:
-            return redirect(url_for('core.index'))
-        return render_template('index.html')
+        elif current_user.role == 'manager':
+
+            return render_template('index.html')
+
+    return render_template('index.html')
 
 
 # ///////////
@@ -201,10 +203,6 @@ def provider_register():
     return render_template('provider_register.html', form=form)
 
 
-
-
-
-
 @auth.route('/user/form/<string:user_name>', methods=['GET', 'POST'])
 @login_required
 def user_details(user_name):
@@ -215,11 +213,13 @@ def user_details(user_name):
     form = UserDetailsForm()
     if request.method == 'POST' and form.validate_on_submit():
         phone_number = form.phone_number.data
-        existing_user_phone = User_Details.query.filter_by(phone_number=phone_number).first()
+        existing_user_phone = User_Details.query.filter_by(
+            phone_number=phone_number).first()
 
         if existing_user_phone:
             flash('This phone number has already been used.', 'danger')
-            return redirect(url_for('auth.user_details', user_name=user_name))  # Fixed
+            # Fixed
+            return redirect(url_for('auth.user_details', user_name=user_name))
 
         try:
             profile_pic_dir = 'book/static/profile_pics'
@@ -233,8 +233,10 @@ def user_details(user_name):
 
             if form.profile_pic.data:
                 profile_pic_file = form.profile_pic.data
-                profile_pic_filename = secure_filename(profile_pic_file.filename)
-                profile_pic_path = os.path.join(profile_pic_dir, profile_pic_filename)
+                profile_pic_filename = secure_filename(
+                    profile_pic_file.filename)
+                profile_pic_path = os.path.join(
+                    profile_pic_dir, profile_pic_filename)
                 profile_pic_file.save(profile_pic_path)
             else:
                 profile_pic_filename = None
@@ -242,16 +244,19 @@ def user_details(user_name):
             certificate_filenames = []
             for certificate_file in form.certificates.data:
                 if len(certificate_filenames) < 5:
-                    certificate_filename = secure_filename(certificate_file.filename)
-                    certificate_path = os.path.join(certificates_dir, certificate_filename)
+                    certificate_filename = secure_filename(
+                        certificate_file.filename)
+                    certificate_path = os.path.join(
+                        certificates_dir, certificate_filename)
                     certificate_file.save(certificate_path)
                     certificate_filenames.append(certificate_filename)
 
-            user_details = User_Details.query.filter_by(user_name=current_user.full_name).first()
+            user_details = User_Details.query.filter_by(
+                user_name=current_user.full_name).first()
             if not user_details:
                 user_details = User_Details(user_name=current_user.full_name)
                 user_details.profile_pic = profile_pic_filename
-                user_details.certificates = ",".join(certificate_filenames) 
+                user_details.certificates = ",".join(certificate_filenames)
                 user_details.date_of_birth = form.date_of_birth.data
                 user_details.phone_number = phone_number
                 user_details.bio = form.bio.data
@@ -266,11 +271,10 @@ def user_details(user_name):
             flash(str(e), 'danger')
         except IntegrityError as e:
             db.session.rollback()
-            flash('An integrity error occurred. Please ensure your data is correct.', 'danger')
+            flash(
+                'An integrity error occurred. Please ensure your data is correct.', 'danger')
 
     return render_template('user_details.html', form=form)
-
-
 
 
 @auth.route('/user/details/<string:user_name>', methods=['GET', 'POST'])
@@ -593,10 +597,9 @@ def accept(appointment_id):
         return redirect(url_for('core.index'))
 
     if appointment.status in ['Confirmed', 'Declined']:
-        flash(f"This appointment has already been {appointment.status.lower()}.", "info")
+        flash(f"This appointment has already been {
+              appointment.status.lower()}.", "info")
         return redirect(url_for('core.index'))
-    
-
 
     if request.method == 'POST':
         appointment.status = 'Confirmed'
@@ -641,7 +644,8 @@ def decline_appointment(appointment_id):
         return redirect(url_for('core.index'))
 
     if appointment.status in ['Confirmed', 'Declined']:
-        flash(f"This appointment has already been {appointment.status.lower()}.", "info")
+        flash(f"This appointment has already been {
+              appointment.status.lower()}.", "info")
         return redirect(url_for('core.index'))
 
     if request.method == 'POST':
@@ -663,7 +667,7 @@ def decline_appointment(appointment_id):
 
             notification_user_b = Notification(
                 user_name=user_b.full_name,
-                message=f"Your appointment for service '{appointment.service_name}' on {appointment.date} has been declined.", read=False )
+                message=f"Your appointment for service '{appointment.service_name}' on {appointment.date} has been declined.", read=False)
             db.session.add(notification_user_b)
             db.session.commit()
 
@@ -785,7 +789,8 @@ def cancel_booking(user_name, service_name):
     if booking:
         booking.status = 'Cancelled'
         db.session.commit()
-        flash(f"Booking for {booking.user_name} with service {booking.service_name} has been cancelled.")
+        flash(f"Booking for {booking.user_name} with service {
+              booking.service_name} has been cancelled.")
     else:
         flash("Booking not found.")
 
@@ -826,7 +831,6 @@ def reactivate_user(user_name):
     return redirect(url_for('booking_system.view_all_users'))
 
 
-
 @booking_system.route('/admin/delete/user/<user_name>', methods=['POST'])
 @csrf.exempt
 @login_required
@@ -834,9 +838,9 @@ def delete_user(user_name):
     if current_user.role != 'admin':
         flash("You do not have permission to access this page.", "danger")
         return redirect(url_for('core.index'))
-    
+
     user = User.query.filter_by(full_name=user_name).first()
-    
+
     if user:
         try:
             # Delete the user
@@ -845,12 +849,12 @@ def delete_user(user_name):
             flash(f"User {user.full_name} has been deleted.", "success")
         except IntegrityError:
             db.session.rollback()
-            flash("An error occurred while deleting the user. Integrity constraint failed.", "danger")
+            flash(
+                "An error occurred while deleting the user. Integrity constraint failed.", "danger")
     else:
         flash("User not found.", "warning")
-    
-    return redirect(url_for('booking_system.view_all_users'))
 
+    return redirect(url_for('booking_system.view_all_users'))
 
 
 @booking_system.route('/admin/view_all_users', methods=['GET'])
