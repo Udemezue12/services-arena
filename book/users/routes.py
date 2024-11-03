@@ -597,8 +597,7 @@ def accept(appointment_id):
         return redirect(url_for('core.index'))
 
     if appointment.status in ['Confirmed', 'Declined']:
-        flash(f"This appointment has already been {
-              appointment.status.lower()}.", "info")
+        flash(f"This appointment has already been {appointment.status.lower()}.", "info")
         return redirect(url_for('core.index'))
 
     if request.method == 'POST':
@@ -644,8 +643,7 @@ def decline_appointment(appointment_id):
         return redirect(url_for('core.index'))
 
     if appointment.status in ['Confirmed', 'Declined']:
-        flash(f"This appointment has already been {
-              appointment.status.lower()}.", "info")
+        flash(f"This appointment has already been {appointment.status.lower()}.", "info")
         return redirect(url_for('core.index'))
 
     if request.method == 'POST':
@@ -789,8 +787,7 @@ def cancel_booking(user_name, service_name):
     if booking:
         booking.status = 'Cancelled'
         db.session.commit()
-        flash(f"Booking for {booking.user_name} with service {
-              booking.service_name} has been cancelled.")
+        flash(f"Booking for {booking.user_name} with service {booking.service_name} has been cancelled.")
     else:
         flash("Booking not found.")
 
