@@ -44,6 +44,7 @@ def index():
             return redirect(url_for("booking_system.view_provider_services"))
         else:
             return redirect(url_for('core.index'))
+        return render_template('index.html')
 
 
 # ///////////
