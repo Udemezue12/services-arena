@@ -42,7 +42,7 @@ def index():
             return redirect(url_for('booking_system.list_services'))
         elif current_user.role == 'provider':
             return redirect(url_for("booking_system.view_provider_services"))
-        elif current_user.role == 'manager':
+        elif current_user.role == 'admin':
 
             return render_template('index.html')
 

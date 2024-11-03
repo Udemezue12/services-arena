@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -87,149 +88,105 @@
     </style>
   </head>
 
-  <body
-    class="bg-gradient-to-r from-yellow-300 to-orange-400 min-h-screen flex flex-col"
-  >
+  <body class="bg-gradient-to-r from-yellow-300 to-orange-400 min-h-screen flex flex-col">
     <!-- Navbar -->
-    <nav class="navbar bg-opacity-75 p-6 max-w-6xl">
-      <div class="container mx-auto flex justify-between items-center space-x-6">
-        <a
-          href="{{ url_for('core.index') }}"
-          class="text-4xl font-extrabold text-gray-900 hover:text-yellow-600"
-          >SERVICES ARENA</a
-        >
-        <div>
-          <ul class="flex space-x-4">
-            {% if current_user.is_authenticated %}
-            <li>
-              <a
-                href="{{ url_for('auth.user_details_form', user_name=current_user.full_name) }}"
-                class="nav-link text-white bg-purple-500 px-4 py-2 rounded-lg hover:bg-purple-700 shadow-md"
-                >Profile</a
-              >
-            </li>
-            {% if current_user.role == 'customer' %}
-            <li>
-              <a
-                class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md"
-                href="{{ url_for('booking_system.list_services') }}"
-                >Book</a
-              >
-            </li>
-            <li>
-                <a
-                  href="{{ url_for('booking_system.user_notification') }}"
-                  class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md"
-                  >Inbox</a
-                >
-              </li>
-            {% elif current_user.role == 'provider' %}
-            <li>
-              <a
-                href="{{ url_for('booking_system.create_service') }}"
-                class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md"
-                >Create</a
-              >
-            </li>
-            <li>
-              <a
-                href="{{ url_for('booking_system.view_provider_services') }}"
-                class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md"
-                >My Services</a
-              >
-            </li>
-            <li>
-                <a
-                  href="{{ url_for('booking_system.user_notification') }}"
-                  class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md"
-                  >Inbox</a
-                >
-              </li>
-            
-            {% elif current_user.role == 'admin' %}
-            <li>
-              <a
-                class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md"
-                href="{{ url_for('booking_system.view_all_users') }}"
-                >Users</a
-              >
-            </li>
-            <li>
-              <a
-                class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md"
-                href="{{ url_for('booking_system.appointments') }}"
-                >Appointments</a
-              >
-            </li>
-            <li>
-                <a
-                  class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md"
-                  href="{{ url_for('booking_system.view_complaints') }}"
-                  >Customer Complaints</a
-                >
-              </li>
-              <li>
-                <a
-                  class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md"
-                  href="{{ url_for('booking_system.view_provider_complaints') }}"
-                  >Provider Complaints</a
-                >
-              </li>
-            {% endif %}
-            <li>
-              <a
-                href="{{ url_for('auth.logout') }}"
-                class="nav-link text-white bg-red-500 px-4 py-2 rounded-lg hover:bg-red-700 shadow-md"
-                >Logout</a
-              >
-            </li>
-            {% else %}
-            <li>
-              <a
-                href="{{ url_for('auth.login') }}"
-                class="nav-link text-white bg-teal-500 px-4 py-2 rounded-lg hover:bg-teal-700 shadow-md"
-                >Login</a
-              >
-            </li>
-            <li>
-              <a
-                href="{{ url_for('auth.register') }}"
-                class="nav-link text-white bg-teal-500 px-4 py-2 rounded-lg hover:bg-teal-700 shadow-md"
-                >Register</a
-              >
-            </li>
-            {% endif %}
-          </ul>
+    <nav class="navbar bg-opacity-75 p-6">
+      <div class="container mx-auto flex flex-col md:flex-row md:justify-between items-center">
+        <!-- Logo or Home Link -->
+        <a href="{{ url_for('core.index') }}"
+          class="text-4xl font-extrabold text-gray-900 hover:text-yellow-600 mb-4 md:mb-0">
+          SERVICES ARENA
+        </a>
+
+        <!-- Menu for Authenticated Users -->
+        <div
+          class="w-full md:w-auto flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-4">
+          {% if current_user.is_authenticated %}
+          <!-- Profile Link -->
+          <a href="{{ url_for('auth.user_details_form', user_name=current_user.full_name) }}"
+            class="nav-link text-white bg-purple-500 px-4 py-2 rounded-lg hover:bg-purple-700 shadow-md">
+            Profile
+          </a>
+
+          <!-- Role-Specific Links -->
+          {% if current_user.role == 'customer' %}
+          <a href="{{ url_for('booking_system.list_services') }}"
+            class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md">
+            Book
+          </a>
+          <a href="{{ url_for('booking_system.user_notification') }}"
+            class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md">
+            Inbox
+          </a>
+          {% elif current_user.role == 'provider' %}
+          <a href="{{ url_for('booking_system.create_service') }}"
+            class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md">
+            Create
+          </a>
+          <a href="{{ url_for('booking_system.view_provider_services') }}"
+            class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md">
+            My Services
+          </a>
+          <a href="{{ url_for('booking_system.user_notification') }}"
+            class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md">
+            Inbox
+          </a>
+          {% elif current_user.role == 'admin' %}
+          <a href="{{ url_for('booking_system.view_all_users') }}"
+            class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md">
+            Users
+          </a>
+          <a href="{{ url_for('booking_system.appointments') }}"
+            class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md">
+            Appointments
+          </a>
+          <a href="{{ url_for('booking_system.view_complaints') }}"
+            class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md">
+            Customer Complaints
+          </a>
+          <a href="{{ url_for('booking_system.view_provider_complaints') }}"
+            class="nav-link text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md">
+            Provider Complaints
+          </a>
+          {% endif %}
+
+          <!-- Logout Link -->
+          <a href="{{ url_for('auth.logout') }}"
+            class="nav-link text-white bg-red-500 px-4 py-2 rounded-lg hover:bg-red-700 shadow-md">
+            Logout
+          </a>
+
+          {% else %}
+          <!-- Guest Links -->
+          <a href="{{ url_for('auth.login') }}"
+            class="nav-link text-white bg-teal-500 px-4 py-2 rounded-lg hover:bg-teal-700 shadow-md">
+            Login
+          </a>
+          <a href="{{ url_for('auth.register') }}"
+            class="nav-link text-white bg-teal-500 px-4 py-2 rounded-lg hover:bg-teal-700 shadow-md">
+            Register
+          </a>
+          {% endif %}
         </div>
       </div>
     </nav>
-    
+
+
+
+
 
     <!-- Complaint Box for Provider and Customer -->
     {% if current_user.role == 'provider' %}
     <div class="complaint-box" id="complaintBoxProvider">
       <div class="complaint-header">
         <span>Send a Complaint (Provider)</span>
-        <span
-          class="close-btn"
-          onclick="document.getElementById('complaintBoxProvider').style.display='none'"
-          >&times;</span
-        >
+        <span class="close-btn"
+          onclick="document.getElementById('complaintBoxProvider').style.display='none'">&times;</span>
       </div>
-      <form
-        method="POST"
-        action="{{ url_for('booking_system.provider_complaint') }}"
-      >
-        <textarea
-          name="complaint"
-          rows="4"
-          class="w-full border border-gray-300 p-2 rounded-lg"
-          placeholder="Type your complaint here..."
-        ></textarea>
-        <button
-          type="submit"
-          class="mt-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700"
-        >
+      <form method="POST" action="{{ url_for('booking_system.provider_complaint') }}">
+        <textarea name="complaint" rows="4" class="w-full border border-gray-300 p-2 rounded-lg"
+          placeholder="Type your complaint here..."></textarea>
+        <button type="submit" class="mt-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700">
           Send
         </button>
       </form>
@@ -242,26 +199,13 @@
     <div class="complaint-box" id="complaintBoxCustomer">
       <div class="complaint-header">
         <span>Send a Complaint (Customer)</span>
-        <span
-          class="close-btn"
-          onclick="document.getElementById('complaintBoxCustomer').style.display='none'"
-          >&times;</span
-        >
+        <span class="close-btn"
+          onclick="document.getElementById('complaintBoxCustomer').style.display='none'">&times;</span>
       </div>
-      <form
-        method="POST"
-        action="{{ url_for('booking_system.customer_complaint') }}"
-      >
-        <textarea
-          name="complaint"
-          rows="4"
-          class="w-full border border-gray-300 p-2 rounded-lg"
-          placeholder="Type your complaint here..."
-        ></textarea>
-        <button
-          type="submit"
-          class="mt-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700"
-        >
+      <form method="POST" action="{{ url_for('booking_system.customer_complaint') }}">
+        <textarea name="complaint" rows="4" class="w-full border border-gray-300 p-2 rounded-lg"
+          placeholder="Type your complaint here..."></textarea>
+        <button type="submit" class="mt-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700">
           Send
         </button>
       </form>
@@ -299,7 +243,13 @@
         burgerMenu.classList.toggle("hidden");
         burgerMenu.classList.toggle("flex");
       });
+
+      function toggleMenu() {
+        const menu = document.getElementById("menu");
+        menu.classList.toggle("hidden");
+      }
     </script>
     {% block scripts %}{% endblock %}
   </body>
+
 </html>
