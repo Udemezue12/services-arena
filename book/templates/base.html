@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}SERVICES ARENA{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="/static/js/ban.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       body {
@@ -90,7 +92,7 @@
   >
     <!-- Navbar -->
     <nav class="navbar bg-opacity-75 p-6">
-      <div class="container mx-auto flex justify-between items-center">
+      <div class="container mx-auto flex justify-between items-center space-x-6">
         <a
           href="{{ url_for('core.index') }}"
           class="text-4xl font-extrabold text-gray-900 hover:text-yellow-600"
@@ -201,6 +203,7 @@
         </div>
       </div>
     </nav>
+    
 
     <!-- Complaint Box for Provider and Customer -->
     {% if current_user.role == 'provider' %}

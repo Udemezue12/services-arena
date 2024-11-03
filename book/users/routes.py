@@ -37,7 +37,13 @@ core = Blueprint('core', __name__)
 
 @core.route('/')
 def index():
-    return render_template('index.html')
+    if current_user.is_authenticated:
+        if current_user.role == 'customer':
+            return redirect(url_for('booking_system.list_services'))
+        elif current_user.role == 'provider':
+            return redirect(url_for("booking_system.view_provider_services"))
+        else:
+            return redirect(url_for('core.index'))
 
 
 # ///////////
